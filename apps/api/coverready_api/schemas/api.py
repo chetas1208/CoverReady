@@ -146,16 +146,30 @@ class ProcessingJobRead(BaseSchema):
     document_id: str
     job_type: str
     status: str
-    stage: str
+    stage: str = "extraction"
     attempt_count: int
     max_attempts: int
     error_message: str | None
     started_at: datetime | None
     finished_at: datetime | None
-    completed_at: datetime | None
-    progress_percent: int
+    completed_at: datetime | None = None
+    progress_percent: int = 0
     created_at: datetime
     updated_at: datetime
+
+    model_config = ConfigDict(populate_by_name=True, from_attributes=True)
+
+    @classmethod
+    def model_validate(cls, obj, *args, **kwargs):  # type: ignore[override]
+        if hasattr(obj, "__dict__") and not hasattr(obj, "stage"):
+            # DB model doesn't have stage/progress_percent/completed_at — derive them
+            data = {c.key: getattr(obj, c.key) for c in obj.__table__.columns}
+            status = data.get("status", "queued")
+            data.setdefault("stage", "extraction")
+            data.setdefault("progress_percent", 100 if status == "ready" else 0)
+            data.setdefault("completed_at", data.get("finished_at"))
+            return cls(**data)
+        return super().model_validate(obj, *args, **kwargs)
 
 
 class EvidenceUpdate(BaseSchema):

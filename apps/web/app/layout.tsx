@@ -16,8 +16,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={`${manrope.variable} ${plexMono.variable} font-sans`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${manrope.variable} ${plexMono.variable} font-sans`} suppressHydrationWarning>
         <AppProviders>
           <AppShell>{children}</AppShell>
         </AppProviders>
