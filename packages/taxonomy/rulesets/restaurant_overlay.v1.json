@@ -1,0 +1,80 @@
+{
+  "ruleset_id": "restaurant_overlay.v1",
+  "version": "1.0.0",
+  "dimensions": {
+    "documentation_completeness": 25,
+    "property_safety_readiness": 20,
+    "operational_controls": 20,
+    "coverage_alignment": 20,
+    "renewal_readiness": 15
+  },
+  "requirements": [
+    {
+      "rule_id": "safety.hood_cleaning.current",
+      "dimension": "property_safety_readiness",
+      "title": "Current hood cleaning proof",
+      "points": 6,
+      "required_fields": ["safety.hood_cleaning.current"],
+      "accepted_document_types": ["maintenance_receipt"],
+      "missing_document_label": "Current hood cleaning proof",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "safety.suppression_service.current",
+      "dimension": "property_safety_readiness",
+      "title": "Current fire suppression service proof",
+      "points": 4,
+      "required_fields": ["safety.suppression_service.current"],
+      "accepted_document_types": ["fire_safety_record", "inspection_report"],
+      "missing_document_label": "Current fire suppression service proof",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "operations.cooking_controls.documented",
+      "dimension": "operational_controls",
+      "title": "Documented cooking controls",
+      "points": 4,
+      "required_fields": ["operations.cooking_controls.current"],
+      "accepted_document_types": ["operations_questionnaire", "training_record"],
+      "missing_document_label": "Documented cooking controls",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "operations.late_night.clarified",
+      "dimension": "operational_controls",
+      "title": "Clarified operating hours / late-night operations",
+      "points": 2,
+      "required_fields": ["operations.late_night.clarified"],
+      "accepted_document_types": ["operations_questionnaire"],
+      "missing_document_label": "Clarified operating hours / late-night operations",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "coverage.classification.restaurant",
+      "dimension": "coverage_alignment",
+      "title": "Restaurant classification support",
+      "points": 4,
+      "required_fields": ["coverage.classification.current"],
+      "accepted_document_types": ["declarations_page", "operations_questionnaire"],
+      "missing_document_label": "Business classification support",
+      "document_requirement": true
+    }
+  ],
+  "caps": [
+    {
+      "cap_id": "cap.restaurant_fire_safety_missing",
+      "title": "Restaurant fire-safety proof missing",
+      "max_total_score": 60,
+      "trigger": {
+        "type": "missing_any_requirement",
+        "rule_ids": [
+          "safety.fire_inspection.current",
+          "safety.extinguisher.current",
+          "safety.hood_cleaning.current",
+          "safety.suppression_service.current"
+        ]
+      }
+    }
+  ]
+}
+

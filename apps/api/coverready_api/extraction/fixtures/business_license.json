@@ -1,0 +1,33 @@
+{
+  "provider": "fixture",
+  "model_id": "fixture-nemotron-parse",
+  "prompt_version": "extract-v1",
+  "document_type": "business_license",
+  "confidence": 0.92,
+  "pages": [
+    {
+      "page_number": 1,
+      "text": "City Business License\nBusiness Name: Local Business Workspace\nAddress: 100 Main Street\nStatus: Active\nExpiration Date: 2027-04-30",
+      "regions": [
+        {
+          "text": "Business Name: Local Business Workspace",
+          "bbox": {"xmin": 0.1, "ymin": 0.2, "xmax": 0.8, "ymax": 0.24, "coordinate_system": "relative"},
+          "region_type": "Text",
+          "confidence": 0.94
+        },
+        {
+          "text": "Address: 100 Main Street",
+          "bbox": {"xmin": 0.1, "ymin": 0.25, "xmax": 0.7, "ymax": 0.29, "coordinate_system": "relative"},
+          "region_type": "Text",
+          "confidence": 0.92
+        },
+        {
+          "text": "Status: Active",
+          "bbox": {"xmin": 0.1, "ymin": 0.31, "xmax": 0.45, "ymax": 0.35, "coordinate_system": "relative"},
+          "region_type": "Text",
+          "confidence": 0.93
+        }
+      ]
+    }
+  ]
+}

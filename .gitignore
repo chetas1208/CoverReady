@@ -1,0 +1,26 @@
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.venv/
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+node_modules/
+.next/
+dist/
+coverage/
+*.egg-info/
+coverready_synthetic_dataset/
+coverready_synthetic_dataset.zip
+aa.txt
+apps/api/data/uploads/
+apps/api/data/runtime/
+
+# local environment secrets
+.env
+.env.*
+!.env.example
+apps/web/.env.local
+apps/web/.env.*
+!apps/web/.env.local.example

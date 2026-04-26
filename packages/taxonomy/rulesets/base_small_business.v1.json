@@ -1,0 +1,179 @@
+{
+  "ruleset_id": "base_small_business.v1",
+  "version": "1.0.0",
+  "dimensions": {
+    "documentation_completeness": 25,
+    "property_safety_readiness": 20,
+    "operational_controls": 20,
+    "coverage_alignment": 20,
+    "renewal_readiness": 15
+  },
+  "requirements": [
+    {
+      "rule_id": "doc.business_license.current",
+      "dimension": "documentation_completeness",
+      "title": "Current business license",
+      "points": 10,
+      "required_fields": ["license.current"],
+      "accepted_document_types": ["business_license"],
+      "missing_document_label": "Active business license",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "doc.occupancy.proof",
+      "dimension": "documentation_completeness",
+      "title": "Occupancy proof",
+      "points": 8,
+      "required_fields": ["occupancy.proof"],
+      "accepted_document_types": ["lease", "storefront_photo"],
+      "missing_document_label": "Occupancy proof (lease or equivalent)",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "doc.coverage.current_policy",
+      "dimension": "documentation_completeness",
+      "title": "Current declarations page or policy excerpt",
+      "points": 7,
+      "required_fields": ["policy.current"],
+      "accepted_document_types": ["declarations_page", "policy_excerpt"],
+      "missing_document_label": "Current declarations page or policy excerpt",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "safety.fire_inspection.current",
+      "dimension": "property_safety_readiness",
+      "title": "Current fire inspection",
+      "points": 6,
+      "required_fields": ["safety.fire_inspection.current"],
+      "accepted_document_types": ["inspection_report", "fire_safety_record"],
+      "missing_document_label": "Current fire inspection or equivalent",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "safety.extinguisher.current",
+      "dimension": "property_safety_readiness",
+      "title": "Current extinguisher service proof",
+      "points": 4,
+      "required_fields": ["safety.extinguisher.current"],
+      "accepted_document_types": ["fire_safety_record", "maintenance_receipt"],
+      "missing_document_label": "Current extinguisher service proof",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "operations.training.current",
+      "dimension": "operational_controls",
+      "title": "Current staff safety training",
+      "points": 8,
+      "required_fields": ["operations.training.current"],
+      "accepted_document_types": ["training_record"],
+      "missing_document_label": "Current staff safety training record",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "operations.maintenance.program",
+      "dimension": "operational_controls",
+      "title": "Documented maintenance program",
+      "points": 6,
+      "required_fields": ["operations.maintenance.program"],
+      "accepted_document_types": ["maintenance_receipt", "inspection_report"],
+      "missing_document_label": "Maintenance program evidence",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "operations.questionnaire.complete",
+      "dimension": "operational_controls",
+      "title": "Completed operations questionnaire",
+      "points": 6,
+      "required_fields": ["operations.questionnaire.complete"],
+      "accepted_document_types": ["operations_questionnaire"],
+      "missing_document_label": "Completed operations questionnaire",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "coverage.named_insured.match",
+      "dimension": "coverage_alignment",
+      "title": "Named insured support",
+      "points": 8,
+      "required_fields": ["business.name"],
+      "accepted_document_types": ["business_license", "lease", "declarations_page", "policy_excerpt"],
+      "missing_document_label": "Named insured evidence"
+    },
+    {
+      "rule_id": "coverage.address.match",
+      "dimension": "coverage_alignment",
+      "title": "Business address support",
+      "points": 6,
+      "required_fields": ["business.address"],
+      "accepted_document_types": ["business_license", "lease", "declarations_page", "storefront_photo"],
+      "missing_document_label": "Business address evidence"
+    },
+    {
+      "rule_id": "coverage.equipment_values.current",
+      "dimension": "coverage_alignment",
+      "title": "Current equipment values",
+      "points": 6,
+      "required_fields": ["coverage.equipment_values.current"],
+      "accepted_document_types": ["operations_questionnaire", "declarations_page"],
+      "missing_document_label": "Current equipment values"
+    },
+    {
+      "rule_id": "renewal.policy_expiration.known",
+      "dimension": "renewal_readiness",
+      "title": "Current policy expiration evidence",
+      "points": 8,
+      "required_fields": ["policy.expiration.current"],
+      "accepted_document_types": ["declarations_page", "policy_excerpt"],
+      "missing_document_label": "Policy expiration / renewal proof",
+      "document_requirement": true
+    },
+    {
+      "rule_id": "renewal.loss_history.provided",
+      "dimension": "renewal_readiness",
+      "title": "Loss history or claims statement",
+      "points": 7,
+      "required_fields": ["renewal.loss_history.current"],
+      "accepted_document_types": ["operations_questionnaire", "policy_excerpt"],
+      "missing_document_label": "Loss history or claims statement",
+      "document_requirement": true
+    }
+  ],
+  "caps": [
+    {
+      "cap_id": "cap.business_license_missing",
+      "title": "Active business license missing or not current",
+      "max_total_score": 55,
+      "trigger": {
+        "type": "missing_requirement",
+        "rule_ids": ["doc.business_license.current"]
+      }
+    },
+    {
+      "cap_id": "cap.coverage_docs_missing",
+      "title": "Current declarations page or policy excerpt missing or expired",
+      "max_total_score": 65,
+      "trigger": {
+        "type": "missing_requirement",
+        "rule_ids": ["doc.coverage.current_policy"]
+      }
+    },
+    {
+      "cap_id": "cap.occupancy_missing",
+      "title": "Occupancy proof missing",
+      "max_total_score": 70,
+      "trigger": {
+        "type": "missing_requirement",
+        "rule_ids": ["doc.occupancy.proof"]
+      }
+    },
+    {
+      "cap_id": "cap.identity_conflict",
+      "title": "Conflicting named insured or address evidence",
+      "max_total_score": 50,
+      "trigger": {
+        "type": "conflict_fields",
+        "fields": ["business.name", "business.address"]
+      }
+    }
+  ]
+}
+

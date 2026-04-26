@@ -1,0 +1,5 @@
+{
+  "fields": ["business.name", "business.address", "license.current"],
+  "business_name": "Sunset Bistro LLC",
+  "page_number": 1
+}

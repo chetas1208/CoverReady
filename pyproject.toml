@@ -1,0 +1,34 @@
+[project]
+name = "coverready-api"
+version = "0.1.0"
+description = "Local-first underwriting readiness platform"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+  "alembic>=1.13.0",
+  "celery>=5.4.0",
+  "fastapi>=0.115.0",
+  "pydantic>=2.7.0",
+  "psycopg[binary]>=3.2.0",
+  "redis>=5.0.0",
+  "sqlalchemy>=2.0.0",
+  "uvicorn>=0.30.0",
+  "python-multipart>=0.0.9",
+  "httpx>=0.27.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=69.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["apps/api"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["apps/api"]

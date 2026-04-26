@@ -1,0 +1,86 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: coverready
+      POSTGRES_USER: coverready
+      POSTGRES_PASSWORD: coverready
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: ../..
+      dockerfile: apps/api/Dockerfile
+    environment:
+      COVERREADY_DATABASE_URL: postgresql+psycopg://coverready:coverready@postgres:5432/coverready
+      COVERREADY_REDIS_URL: redis://redis:6379/0
+      COVERREADY_AS_OF_DATE: "2026-04-22"
+      COVERREADY_EXTRACTOR_MODE: fixture
+      COVERREADY_OLLAMA_URL: http://ollama:11434
+    ports:
+      - "8000:8000"
+    volumes:
+      - api_runtime:/app/apps/api/data/runtime
+      - api_uploads:/app/apps/api/data/uploads
+    depends_on:
+      - postgres
+      - redis
+
+  worker:
+    build:
+      context: ../..
+      dockerfile: apps/api/Dockerfile
+    command: celery -A coverready_api.jobs.celery_app.celery_app worker --loglevel=INFO
+    environment:
+      COVERREADY_DATABASE_URL: postgresql+psycopg://coverready:coverready@postgres:5432/coverready
+      COVERREADY_REDIS_URL: redis://redis:6379/0
+      COVERREADY_AS_OF_DATE: "2026-04-22"
+      COVERREADY_EXTRACTOR_MODE: fixture
+    volumes:
+      - api_runtime:/app/apps/api/data/runtime
+      - api_uploads:/app/apps/api/data/uploads
+    depends_on:
+      - postgres
+      - redis
+
+  web:
+    build:
+      context: ../..
+      dockerfile: apps/web/Dockerfile
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://api:8000/api/v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  qdrant:
+    image: qdrant/qdrant:v1.13.2
+    profiles: ["retrieval"]
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+
+  ollama:
+    image: ollama/ollama:0.6.5
+    profiles: ["ai"]
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_storage:/root/.ollama
+
+volumes:
+  postgres_data:
+  api_runtime:
+  api_uploads:
+  qdrant_storage:
+  ollama_storage:

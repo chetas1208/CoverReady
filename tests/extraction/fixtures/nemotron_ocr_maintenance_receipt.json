@@ -1,0 +1,23 @@
+{
+  "provider": "nemotron-ocr-v1",
+  "model_id": "nvidia/nemotron-ocr-v1",
+  "prompt_version": "extract-v1",
+  "document_type": "maintenance_receipt",
+  "confidence": 0.76,
+  "pages": [
+    {
+      "page_number": 1,
+      "text": "Hood Cleaning Service Receipt\nService Date: 2026-03-10\nSystem cleaned by SafeVent Services",
+      "regions": [
+        {
+          "text": "Hood Cleaning Service Receipt",
+          "region_type": "OCR",
+          "confidence": 0.76
+        }
+      ]
+    }
+  ],
+  "raw_payload": {
+    "provider_payload_kind": "ocr_fixture"
+  }
+}

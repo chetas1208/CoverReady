@@ -1,0 +1,17 @@
+{
+  "provider": "nemotron-parse",
+  "model_id": "nvidia/nemotron-parse",
+  "prompt_version": "extract-v1",
+  "document_type": "maintenance_receipt",
+  "confidence": 0.31,
+  "pages": [
+    {
+      "page_number": 1,
+      "text": "blurred",
+      "regions": []
+    }
+  ],
+  "raw_payload": {
+    "provider_payload_kind": "weak_parse_fixture"
+  }
+}
